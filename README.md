@@ -49,4 +49,122 @@ Looking into our correlation plot for Iquitos city, we can still find positive c
 From the above figure, we can observe that reanalysis_specific_humidity_g_per_kg and reanalysis_dew_point_temp_k are most strongly correlated with Total_cases variable.
 Also,  relative_humidity_percent, station_min_temp_c, reanalysis_min_air_temp_k, and station_average_temp_c has positive correlation with total_cases. Also, reanalysis_tdtrk_k shows the some negative correlation with total_cases variable.  
 
+The figure below shows the Boxplot of our dependent and  independent variables at Iquitos city.  Starting from the left of our figure, we have total_cases, reanalysis_specific_humidity_g_per_kg, station_max_temp_c, reanalysis_tdtr_k, reanalysis_dew_point_temp_k and reanalysis_max_air_temp_k variables. We can see that total_cases is right skewed. Reanalysis_specific_humidity_g_per_kg looks slightly left skewed. Station_max_temp_c looks like it is normally distributed. Reanalysis_tdtr_k looks like it is left skewed.   Reanalysis_dew_point_temp_k looks like it is right skewed and reanalysis_max_air_temp_k variable looks like it is normally distributed.  
+![10](https://user-images.githubusercontent.com/5343403/34076168-c2837bb6-e2a2-11e7-80e6-7b67400c4ade.png)  
+Box-plot for Iquitos.  
+
+![11](https://user-images.githubusercontent.com/5343403/34076169-c48bd732-e2a2-11e7-8bc8-2ff268db5891.PNG)  
+Box-plot for San Juan.  
+From above figure, we can see that total_cases is right skewed. Reanalysis_specific_humidity_g_per_kg, Station_max_temp_c, and Reanalysis_tdtr_k looks like it is normally distributed. Reanalysis_dew_point_temp_k looks like it is right skewed and reanalysis_max_air_temp_k variable looks like it is normally distributed.  
+
+![12](https://user-images.githubusercontent.com/5343403/34076170-c681c6d2-e2a2-11e7-8e36-90dfbfbf0014.PNG)  
+Time plot for San Juan variables: total_cases, reanalysis_specific_humidity_g_per_kg, reanalysis_dew_point_temp_k, station_max_temp_c and reanalysis_tdtr_k.  
+From above figure, we can observe that all our variables have strong seasonality. We cannot see any trend in our data. We can also see that all our variables except total_cases look stationary.  
+
+![13](https://user-images.githubusercontent.com/5343403/34076171-c8ae91b0-e2a2-11e7-8897-33b880ffa387.PNG)  
+Time series for Iquitos variables: total_cases, reanalysis_specific_humidity_g_per_kg, and reanalysis_dew_point_temp_k.  
+From above figure, we can see some strong seasonality in our variables. We cannot see any trend in our data set. We can also see that all our variables except total_cases look stationary.  
+
+![14](https://user-images.githubusercontent.com/5343403/34076172-ca3398e6-e2a2-11e7-8909-9b6c86ee24ea.PNG)  
+ACF plot for San Juan Dengi variables.  
+From the above figure, we can see that there is positive correlation between the lags of each of our predictor variables. We might have to take some transformations with the data when we use these predictors in our time series models. We can also see some seasonality within the variables.  
+
+![15](https://user-images.githubusercontent.com/5343403/34076173-cbcae5a6-e2a2-11e7-8f3d-54fac57500fb.PNG)  
+ACF plot for Iquitos Dengi variables.  
+From the above figure, we can see that there is positive autocorrelation within the lags of each of our predictor variables. We can also see some seasonality in the plots for all our predictor variables.  
+
+### Predictive Analysis
+#### Negative Binomial Regression
+We used the Negative Binomial Regression from the MASS package.  
+We found that, for the Negative Binomial Regression, only reanalysis_specific_humidity_g_oer_kg and reanalysis_dew_point_temp_k independent variables were significant variables for both our cities. Station_max_temp_c and weekofyear, and reanalysis_tdtr_k independent variables were only significant for San Juan.  
+
+We started with twelve variables for each of our two cities to fit a negative binomial regression model. But we ended up with just five independent variables for San Juan and 2 independent variable for Iquitos.  
+
+For San Juan, our AIC with the model came up to be 8304.6 and our model had an overall significance level of about 2%.  
+Next, we fitted our model for Iquitos. We only had 2 independent variable that were significant to our model. Our model had a AIC score of 3134.1 and our over all significance level for our model was 8%.  
+![16](https://user-images.githubusercontent.com/5343403/34076204-329f3722-e2a4-11e7-9687-72df3b7ec10b.png)  
+Plot of Actual vs Predicted values (Negative Binomial Regression).  
+From above figure, we can see that our predicted values do not perfectly match our actual values. Even Though, our model does predict the seasonality of data with respect to the actual data, we can see that in some cases the predicted values exceeded the actual values most of the time. There is still room for improvement on our model for San Juan.  
+![17](https://user-images.githubusercontent.com/5343403/34076205-36a03ace-e2a4-11e7-8f1e-768417a24674.png)  
+Plot of Actual vs Predicted values  (Negative Binomial Regression).  
+From above figure, we can see that our predicted values do not perfectly match our actual values. Even Though, our model does predict the seasonality of data with respect to the actual data, we can see that in some cases the predicted values exceeded the actual values most of the time. There is still room for improvement on our model for Iquitos.  
+#### Linear Regression with Time Series Data
+For Linear Regression with Times Series Data for San Juan, we took reanalysis_specific_humidity_g_per_kg, reanalysis_dew_point_temp_k, station_max_temp_c and reanalysis_tdtr_k as our independent predictor variables based on the predictor variables for San Juan from our Negative Binomial Regression model.  
+We can see that our Adjusted R^2 for our model is 0.05994. Our F-statistics looks significant.  
+For Iquitos data, we took reanalysis_specific_humidity_g_per_kg and reanalysis_dew_point_temp_k to predict total_cases, based on our results from our Negative Binomial Regression model.  
+![18](https://user-images.githubusercontent.com/5343403/34076206-38d0dcae-e2a4-11e7-9c77-4508bbf608fa.png)  
+Time Series Actual vs Predicted (San Juan).  
+![19](https://user-images.githubusercontent.com/5343403/34076207-3abc3662-e2a4-11e7-8e78-97f6c09ebf64.png)  
+Time Series actual vs predicted (Iquitos).  
+From above Figure, we can see that our predicted values were not able to truly capture the variation with our actual data movements. Our predicted values did capture the seasonality present in the actual data. There are still some room for improving our models.  
+#### ARIMA
+As discussed, we have used ARIMA with exogenous variables (Dynamic Regression), for San Juan we use reanalysis_specific_humidity_g_per_kg, reanalysis_dew_point_temp_k, station_max_temp_c and reanalysis_tdtr_k as our independent predictor variables. For Iquitos, we use reanalysis_specific_humidity_g_per_kg and reanalysis_dew_point_temp_k as our independent predictor variable. We use total_cases as our dependent variable for both San Juan and Iquitos.  
+
+![20](https://user-images.githubusercontent.com/5343403/34076265-0b1230c2-e2a6-11e7-9a1f-9d883ccd6948.png)  
+Fitted vs actual values for San Juan.  
+From the above figure, we can see that our fitted value almost perfectly fit well with our actual values for San Juan.  
+![21](https://user-images.githubusercontent.com/5343403/34076266-0b286978-e2a6-11e7-917e-c62068f76139.png)  
+Fitted vs actual for Iquitos.  
+From the above figure we can see that our fitted values capture the actual values of our model.  
+
+### Discussion and Recommendation
+#### Residual Diagnostics for Negative Binomial Regression Model
+##### San Juan
+![22](https://user-images.githubusercontent.com/5343403/34076267-0b3fbb14-e2a6-11e7-8bd9-7915738a3693.png)  
+Residuals vs Fitted values for San Juan.  
+Residual vs Fitted Values plot show that there is some observable pattern, i.e. we can see some heteroscedasticity in our residuals.  The variance of the residuals is not constant.  
+
+![23](https://user-images.githubusercontent.com/5343403/34076268-0b5a177a-e2a6-11e7-9d6f-c28ada0537fc.png)  
+Q-q plot for San Juan.  
+The Q-Q plot shows that we can see that the residuals data are not normally distributed, and we may have an outlier in our data.  
+
+![24](https://user-images.githubusercontent.com/5343403/34076269-0b729a48-e2a6-11e7-8d14-a1c0f424edd5.png)  
+Predicted values vs Standard Residuals.  
+There are some patterns in this graph, suggesting heteroscedasticity in our residuals.  
+
+![25](https://user-images.githubusercontent.com/5343403/34076270-0b89d01e-e2a6-11e7-8b82-8edc34d4d0de.png)  
+Leverage plot for San Juan.  
+We can see that all the residuals are within the Cook’s distance.  
+##### Iquitos
+![26](https://user-images.githubusercontent.com/5343403/34076271-0ba174da-e2a6-11e7-85d9-0b30dd167fb9.png)  
+Residuals vs fitted values for Iquitos.  
+Residual vs Fitted Values plot show that there is some observable pattern, i.e. we can see some heteroscedasticity in our residuals.  The variance of the residuals is not constant.  
+
+![27](https://user-images.githubusercontent.com/5343403/34076256-0a356278-e2a6-11e7-81c4-7fda9b2af76a.png)  
+Q-q plot for Iquitos.  
+From the q-q plot we can see that our residual data is not normally distributed.  
+
+![28](https://user-images.githubusercontent.com/5343403/34076257-0a4ca316-e2a6-11e7-8e96-1af0333894b7.png)  
+Predicted values vs Standard Residuals for Iquitos.  
+It shows that there are some patterns in this graph, suggesting heteroscedasticity in our residuals.  
+
+![29](https://user-images.githubusercontent.com/5343403/34076258-0a61acf2-e2a6-11e7-97c5-0121639b483a.png)  
+Leverage plot for Iquitos.  
+For this graph, we can see that all our residuals are within the Cook’s distance.  
+#### Residual diagnostics for Linear Regression with Time Series Data
+![30](https://user-images.githubusercontent.com/5343403/34076259-0a784bba-e2a6-11e7-8ec0-fb4894ad706e.png)  
+Residual Diagnostics for San Juan.  
+From the above figure we can see that our residuals don’t have constant variance. We can also see from the Acf plot that our residuals are autocorrelated, meaning that there is information left in the residuals which should be used in computing forecasts. We can also see that our residuals are not normally distributed.  
+
+![31](https://user-images.githubusercontent.com/5343403/34076260-0a8f73d0-e2a6-11e7-9522-9a6b287265dc.png)  
+Residual Diagnostics for Iquitos.  
+From above figure, we can see that our residuals do have have constant variance. We can also see that the residuals are highly autocorrelated. This means that there is information left in the residuals which should be used in computing forecasts. Also, we can see that the residuals are not normally distributed.  
+#### Residual diagnostics for ARIMA model with exogenous variables
+![32](https://user-images.githubusercontent.com/5343403/34076261-0ab69ba4-e2a6-11e7-9e67-d82508dcd775.png)  
+Regression errors and ARIMA errors from the fitted model.  
+The residuals of the ARIMA model should look like white noise. Our residuals do not perfectly look like white noise. Our model had a regression component and an ARIMA component.  
+
+![33](https://user-images.githubusercontent.com/5343403/34076262-0acddfda-e2a6-11e7-8897-9d3d9dcfc116.png)  
+Residual diagnostics for ARIMA model for San Juan.  
+When we look at our residuals, we can see that the residuals are not white noise. Ther are some lags in our ACF plot are well outside our critical values. There was a lag within the first few lags that went outside our critical point. Our residual almost normally distributed. The AIC score for our ARIMA model is more than that for Negative Binomial model.  
+
+![34](https://user-images.githubusercontent.com/5343403/34076263-0ae46dcc-e2a6-11e7-9993-4a121e111281.png)  
+Regression errors and ARIMA errors from the fitted model.  
+We can see that our residuals for our ARIMA model is not a perfect white noise. Our ARIMA had a regression component and a ARIMA component.  
+
+![35](https://user-images.githubusercontent.com/5343403/34076264-0afb3e8a-e2a6-11e7-8dba-a762f9424152.png)  
+Residual diagnostics for ARIMA model for Iquitos.  
+From the above figure, we can see that our residual are not white noise. The leading lag for our model was well outside our critical value. Our residuals were somewhat normally distributed with some values reaching far at the corners.  
+
+
 
